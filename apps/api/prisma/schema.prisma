@@ -1,0 +1,80 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String   @id @default(uuid())
+  audiusUserId  String   @unique
+  handle        String
+  displayName   String?
+  createdAt     DateTime @default(now())
+
+  stations      Station[]
+  history       ListenEvent[]
+  feedback      TrackFeedback[]
+  sessions      SharedSession[] @relation("host")
+}
+
+model Station {
+  id            String   @id @default(uuid())
+  userId        String
+  name          String
+  mood          String?          // "chill", "focus", "party", custom label
+  // "audius_favorites" | "audius_playlist" | "audius_trending" | "audius_search" | "custom_mix"
+  sourceType    String
+  sourceRefs    Json             // e.g. { playlistIds: [...] } or { genre: "Lo-Fi" }
+  djMode        Boolean  @default(false)
+  crossfadeSec  Int      @default(5)
+  discoverMode  Boolean  @default(false)
+  shareSlug     String?  @unique
+  createdAt     DateTime @default(now())
+
+  user          User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
+model ListenEvent {
+  id           String   @id @default(uuid())
+  userId       String
+  trackId      String           // namespaced id, e.g. "audius:D7KyD"
+  stationId    String?
+  playedAt     DateTime @default(now())
+  skipped      Boolean  @default(false)
+  msPlayed     Int?
+
+  user         User     @relation(fields: [userId], references: [id])
+
+  // Smart shuffle / no-repeat window reads a user's most recent plays.
+  @@index([userId, playedAt])
+}
+
+model TrackFeedback {
+  id        String   @id @default(uuid())
+  userId    String
+  trackId   String
+  genre     String?  // denormalized so feedback can steer discover mode
+  rating    Int      // 1 = thumbs up, -1 = thumbs down
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id])
+  @@unique([userId, trackId])
+}
+
+model SharedSession {
+  id          String   @id @default(uuid())
+  hostUserId  String
+  stationId   String
+  joinCode    String   @unique
+  currentTrackId String?
+  trackStartedAt DateTime?   // server time the current track began (sync clock)
+  startedAt   DateTime @default(now())
+  active      Boolean  @default(true)
+
+  host        User     @relation("host", fields: [hostUserId], references: [id])
+}

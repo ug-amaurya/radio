@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Theme palettes: space-separated RGB channels so Tailwind opacity modifiers work. */
+:root,
+[data-theme="aubergine"] {
+  --c-ink-950: 21 9 32;
+  --c-ink-900: 26 12 40;
+  --c-ink-800: 33 17 47;
+  --c-ink-700: 43 26 61;
+  --c-ink-600: 56 36 79;
+  --c-ink-500: 74 51 102;
+  --c-accent: 169 139 239;
+  --c-accent-300: 196 176 245;
+  --c-accent-600: 143 111 224;
+  --c-mint: 127 227 240;
+}
+[data-theme="midnight"] {
+  --c-ink-950: 7 12 24;
+  --c-ink-900: 10 17 32;
+  --c-ink-800: 15 25 45;
+  --c-ink-700: 22 36 64;
+  --c-ink-600: 31 50 88;
+  --c-ink-500: 46 70 115;
+  --c-accent: 90 169 255;
+  --c-accent-300: 156 201 255;
+  --c-accent-600: 59 138 230;
+  --c-mint: 127 240 200;
+}
+[data-theme="forest"] {
+  --c-ink-950: 6 18 14;
+  --c-ink-900: 9 24 19;
+  --c-ink-800: 13 32 26;
+  --c-ink-700: 20 45 36;
+  --c-ink-600: 29 62 50;
+  --c-ink-500: 43 88 70;
+  --c-accent: 95 214 155;
+  --c-accent-300: 154 232 192;
+  --c-accent-600: 63 185 127;
+  --c-mint: 240 230 127;
+}
+[data-theme="sunset"] {
+  --c-ink-950: 26 9 16;
+  --c-ink-900: 32 12 20;
+  --c-ink-800: 41 16 27;
+  --c-ink-700: 56 24 37;
+  --c-ink-600: 74 34 50;
+  --c-ink-500: 99 48 68;
+  --c-accent: 255 122 144;
+  --c-accent-300: 255 166 180;
+  --c-accent-600: 230 90 115;
+  --c-mint: 255 210 127;
+}
+[data-theme="graphite"] {
+  --c-ink-950: 10 10 12;
+  --c-ink-900: 15 15 18;
+  --c-ink-800: 22 22 26;
+  --c-ink-700: 32 32 38;
+  --c-ink-600: 45 45 52;
+  --c-ink-500: 66 66 75;
+  --c-accent: 245 197 66;
+  --c-accent-300: 250 220 130;
+  --c-accent-600: 224 170 40;
+  --c-mint: 127 227 240;
+}
+
+@layer base {
+  body {
+    @apply bg-ink-900 font-sans text-white antialiased;
+  }
+  :focus-visible {
+    @apply outline outline-2 outline-offset-2 outline-lilac;
+  }
+}
+
+@layer components {
+  /* Range inputs styled as the lilac progress / volume bars. */
+  .range-lilac {
+    @apply h-1.5 w-full cursor-pointer appearance-none rounded-full bg-ink-500;
+    background-image: linear-gradient(rgb(var(--c-accent)), rgb(var(--c-accent)));
+    background-repeat: no-repeat;
+    background-size: var(--fill, 0%) 100%;
+  }
+  .range-lilac::-webkit-slider-thumb {
+    @apply h-3.5 w-3.5 appearance-none rounded-full bg-white;
+  }
+  .range-lilac::-moz-range-thumb {
+    @apply h-3.5 w-3.5 rounded-full border-0 bg-white;
+  }
+}
+
+/* Honour "reduce motion": no transitions, animations or smooth scrolling. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

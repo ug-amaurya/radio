@@ -1,0 +1,38 @@
+# Render Blueprint for the API (Express + Socket.IO). The frontend deploys on Vercel (apps/web/vercel.json).
+services:
+  - type: web
+    name: audius-radio-api
+    runtime: node
+    plan: free
+    # --include=dev: Render sets NODE_ENV=production, which would otherwise skip typescript and prisma.
+    # Migrations run in the build step because pre-deploy commands aren't available on the free plan.
+    buildCommand: >-
+      npm ci --include=dev &&
+      npx prisma generate --schema apps/api/prisma/schema.prisma &&
+      npx prisma migrate deploy --schema apps/api/prisma/schema.prisma &&
+      npm run build -w apps/api
+    startCommand: npm run start -w apps/api
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: COOKIE_SECURE
+        value: "true"
+      - key: SESSION_SECRET
+        generateValue: true
+      # Set these in the Render dashboard (never commit them):
+      - key: DATABASE_URL # Neon / Supabase connection string
+        sync: false
+      - key: REDIS_URL # Upstash connection string (rediss://...)
+        sync: false
+      - key: AUDIUS_API_KEY
+        sync: false
+      - key: AUDIUS_BEARER_TOKEN
+        sync: false
+      - key: AUDIUS_REDIRECT_URI # https://<your-site>.vercel.app/callback
+        sync: false
+      - key: FRONTEND_ORIGIN # https://<your-site>.vercel.app
+        sync: false
+      - key: SENTRY_DSN # optional
+        sync: false

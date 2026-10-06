@@ -1,0 +1,32 @@
+/** Genres accepted by the Audius trending endpoint. */
+export const GENRES = [
+  "Electronic",
+  "Hip-Hop/Rap",
+  "Lo-Fi",
+  "Ambient",
+  "Rock",
+  "Pop",
+  "Alternative",
+  "Metal",
+  "Jazz",
+  "Classical",
+  "Folk",
+  "Acoustic",
+  "R&B/Soul",
+  "Reggae",
+  "Latin",
+  "Funk",
+  "Country",
+  "Blues",
+  "World",
+  "Soundtrack",
+  "Experimental",
+  "Techno",
+  "House",
+  "Trap",
+  "Drum & Bass",
+  "Dubstep",
+  "Vaporwave",
+] as const;
+
+export const MOODS = ["Chill", "Focus", "Party", "Workout", "Sleep"] as const;
