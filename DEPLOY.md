@@ -20,7 +20,7 @@ API on Render, site on Vercel, Postgres on Neon/Supabase, Redis on Upstash. Depl
 | `AUDIUS_API_KEY`, `AUDIUS_BEARER_TOKEN` | Render | Audius app (**bearer token: server only**) |
 | `AUDIUS_REDIRECT_URI` | Render | `https://<your-site>.vercel.app/callback` |
 | `FRONTEND_ORIGIN` | Render | `https://<your-site>.vercel.app` |
-| `SESSION_SECRET`, `COOKIE_SECURE`, `NODE_ENV` | Render | generated / `true` / `production` (in `render.yaml`) |
+| `SESSION_SECRET`, `COOKIE_SECURE`, `NODE_ENV`, `TRUST_PROXY_HOPS` | Render | generated / `true` / `production` / `2` (in `render.yaml`) |
 | `SENTRY_DSN` / `VITE_SENTRY_DSN` | Render / Vercel | optional |
 | `VITE_AUDIUS_API_KEY` | Vercel | same API key (safe in the browser) |
 | `VITE_API_BASE_URL` | Vercel | `/api/v1` (Vercel proxies it to Render, so cookies stay same-site) |

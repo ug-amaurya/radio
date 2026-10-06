@@ -16,6 +16,11 @@ const envSchema = z.object({
   DATABASE_URL: z.string().min(1),
   REDIS_URL: z.string().min(1),
   FRONTEND_ORIGIN: z.string().url(),
+  /**
+   * How many reverse proxies sit in front of the API in production, so rate limits see the real client IP.
+   * Render alone is 1; with Vercel proxying /api to Render it is 2 (Vercel, then Render).
+   */
+  TRUST_PROXY_HOPS: z.coerce.number().int().min(0).max(5).default(1),
   /** Optional: enables Sentry error reporting. */
   SENTRY_DSN: z
     .string()

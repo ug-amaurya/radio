@@ -17,6 +17,9 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
+      # Vercel proxies /api to Render, so two proxies sit in front of the app (Vercel, then Render).
+      - key: TRUST_PROXY_HOPS
+        value: "2"
       - key: COOKIE_SECURE
         value: "true"
       - key: SESSION_SECRET

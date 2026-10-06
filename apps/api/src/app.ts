@@ -31,8 +31,8 @@ export const sessionMiddleware = session({
 
 export function createApp() {
   const app = express();
-  // Behind Render/Vercel the client IP arrives in X-Forwarded-For; without this every user shares one rate-limit bucket.
-  if (env.NODE_ENV === "production") app.set("trust proxy", 1);
+  // Behind Render/Vercel the client IP arrives in X-Forwarded-For; with the wrong hop count every user shares one rate-limit bucket.
+  if (env.NODE_ENV === "production") app.set("trust proxy", env.TRUST_PROXY_HOPS);
 
   app.use(helmet());
   app.use(cors({ origin: env.FRONTEND_ORIGIN, credentials: true }));
