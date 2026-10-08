@@ -35,8 +35,8 @@ export function NowPlayingHero({ onStart }: { onStart: () => void }) {
                 )}
                 <InFavoritesBadge trackId={current.id} />
               </div>
-              <h2 className="mt-3 text-2xl font-bold leading-tight sm:text-3xl">{current.title}</h2>
-              <p className="mt-1 text-lg text-white/80">{current.artist}</p>
+              <h2 className="mt-3 text-2xl font-bold leading-tight [overflow-wrap:anywhere] sm:text-3xl">{current.title}</h2>
+              <p className="mt-1 text-lg text-white/80 [overflow-wrap:anywhere]">{current.artist}</p>
               {current.permalinkUrl && (
                 <a
                   href={current.permalinkUrl}
